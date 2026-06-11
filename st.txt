@@ -1,0 +1,29 @@
+/pdhceo
+├── config/
+│   ├── config.php
+│   ├── database.php
+│   └── his_database.php
+├── includes/
+│   ├── auth.php
+│   ├── functions.php
+│   ├── header.php
+│   ├── sidebar.php
+│   └── footer.php
+├── api/
+│   ├── get_opd_stats.php
+│   ├── get_ipd_stats.php
+│   └── get_ceo_summary.php
+├── modules/
+│   ├── opd/
+│   │   └── index.php
+│   └── ipd/
+│       └── index.php
+├── assets/
+│   ├── css/style.css
+│   └── js/dashboard.js
+├── logs/
+├── login.php
+├── check_login.php
+├── logout.php
+├── dashboard.php
+└── index.php

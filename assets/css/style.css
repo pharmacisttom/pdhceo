@@ -1,0 +1,153 @@
+body {
+    font-family: 'Sarabun', sans-serif;
+    background: #f3f6fb;
+}
+
+.login-bg {
+    background: linear-gradient(135deg, #0d6efd, #20c997);
+}
+
+.login-card {
+    width: 420px;
+    border-radius: 24px;
+}
+
+.app-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 270px;
+    background: linear-gradient(180deg, #0f172a, #1e3a8a);
+    color: white;
+    padding: 24px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.brand {
+    margin-bottom: 32px;
+}
+
+.brand-title {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.brand-subtitle {
+    font-size: 14px;
+    color: #bfdbfe;
+}
+
+.menu {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: #dbeafe;
+    text-decoration: none;
+    padding: 13px 15px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    transition: 0.2s;
+}
+
+.menu:hover,
+.menu.active {
+    background: rgba(255,255,255,0.16);
+    color: white;
+}
+
+.logout-btn {
+    color: #fde68a;
+}
+
+.main-content {
+    margin-left: 270px;
+    padding: 28px;
+    width: calc(100% - 270px);
+}
+
+.topbar {
+    background: white;
+    border-radius: 24px;
+    padding: 22px 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.kpi-card {
+    border: none;
+    border-radius: 24px;
+    color: white;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.bg-blue {
+    background: linear-gradient(135deg, #2563eb, #60a5fa);
+}
+
+.bg-green {
+    background: linear-gradient(135deg, #059669, #34d399);
+}
+
+.bg-orange {
+    background: linear-gradient(135deg, #d97706, #fbbf24);
+}
+
+.bg-red {
+    background: linear-gradient(135deg, #dc2626, #fb7185);
+}
+
+.kpi-title {
+    font-size: 15px;
+    opacity: 0.95;
+}
+
+.kpi-number {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 8px;
+}
+
+.kpi-subtitle {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+.chart-card {
+    border: none;
+    border-radius: 24px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-height: auto;
+    }
+
+    .app-wrapper {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .topbar {
+        display: block;
+    }
+
+    .user-box {
+        text-align: left !important;
+        margin-top: 15px;
+    }
+}
