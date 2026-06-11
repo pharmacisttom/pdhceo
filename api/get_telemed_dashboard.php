@@ -102,15 +102,16 @@ function telemed_decode(?string $value): string
 
 function telemed_has_table(PDO $pdo, string $table): bool
 {
-    $stmt = $pdo->prepare('SHOW TABLES LIKE :table');
-    $stmt->execute([':table' => $table]);
+    $quotedTable = $pdo->quote($table);
+    $stmt = $pdo->query("SHOW TABLES LIKE {$quotedTable}");
     return (bool)$stmt->fetchColumn();
 }
 
 function telemed_has_column(PDO $pdo, string $table, string $column): bool
 {
-    $stmt = $pdo->prepare("SHOW COLUMNS FROM `$table` LIKE :column");
-    $stmt->execute([':column' => $column]);
+    $quotedColumn = $pdo->quote($column);
+    $safeTable = str_replace('`', '``', $table);
+    $stmt = $pdo->query("SHOW COLUMNS FROM `{$safeTable}` LIKE {$quotedColumn}");
     return (bool)$stmt->fetchColumn();
 }
 
@@ -132,17 +133,20 @@ try {
 
     $stmtKpi = $his->prepare("
         SELECT
-            COUNT(CASE WHEN o.regdate = :today THEN 1 END) AS visits_today,
-            COUNT(DISTINCT CASE WHEN o.regdate = :today THEN o.hn END) AS patients_today,
-            COUNT(CASE WHEN o.regdate BETWEEN :start AND :end THEN 1 END) AS visits_fy,
-            COUNT(DISTINCT CASE WHEN o.regdate BETWEEN :start AND :end THEN o.hn END) AS patients_fy,
+            COUNT(CASE WHEN o.regdate = :today_visits THEN 1 END) AS visits_today,
+            COUNT(DISTINCT CASE WHEN o.regdate = :today_patients THEN o.hn END) AS patients_today,
+            COUNT(CASE WHEN o.regdate BETWEEN :start_visits AND :end_visits THEN 1 END) AS visits_fy,
+            COUNT(DISTINCT CASE WHEN o.regdate BETWEEN :start_patients AND :end_patients THEN o.hn END) AS patients_fy,
             COUNT(*) AS visits_all_time
         {$telemedWhere}
     ");
     $stmtKpi->execute([
-        ':today' => $fy['today'],
-        ':start' => $fy['start'],
-        ':end' => $fy['end'],
+        ':today_visits' => $fy['today'],
+        ':today_patients' => $fy['today'],
+        ':start_visits' => $fy['start'],
+        ':end_visits' => $fy['end'],
+        ':start_patients' => $fy['start'],
+        ':end_patients' => $fy['end'],
     ]);
     $kpi = $stmtKpi->fetch() ?: [];
 
@@ -224,13 +228,7 @@ try {
                 END AS status_label,
                 COUNT(*) AS total
             FROM telemed_patient_status s
-            INNER JOIN opd.opd o
-                ON o.hn = s.hn
-               AND o.regdate = s.regdate
-            INNER JOIN hos.codeinhos c
-                ON (o.comein = c.code OR CONCAT('IN', o.comein) = c.code)
-            WHERE c.code = 'IN10'
-              AND s.regdate BETWEEN :start AND :end
+            WHERE s.regdate BETWEEN :start AND :end
             GROUP BY status_label
             ORDER BY total DESC
             LIMIT 8

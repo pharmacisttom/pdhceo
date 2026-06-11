@@ -1,3 +1,56 @@
+<?php
+require_once __DIR__ . '/../config/app_version.php';
+$pdhVersion = pdh_app_version_info();
+?>
+
+<div class="pdh-version-badge">
+    <span class="pdh-version-label">System Version</span>
+    <strong><?= htmlspecialchars((string)$pdhVersion['version_code'], ENT_QUOTES, 'UTF-8') ?></strong>
+    <span class="pdh-version-date"><?= htmlspecialchars((string)$pdhVersion['display_full_th'], ENT_QUOTES, 'UTF-8') ?></span>
+</div>
+
+<style>
+.pdh-version-badge {
+    position: fixed;
+    right: 18px;
+    bottom: 14px;
+    z-index: 1100;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid rgba(148, 163, 184, .35);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .94);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .10);
+    color: #0f172a;
+    font-size: 12px;
+    font-weight: 700;
+    backdrop-filter: blur(8px);
+}
+.pdh-version-label {
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    font-size: 11px;
+}
+.pdh-version-date {
+    color: #2563eb;
+}
+@media (max-width: 991px) {
+    .pdh-version-badge {
+        right: 12px;
+        bottom: 12px;
+        gap: 6px;
+        padding: 7px 10px;
+        font-size: 11px;
+    }
+    .pdh-version-label {
+        display: none;
+    }
+}
+</style>
+
 <script>
 (function () {
     let activeRequests = 0;
