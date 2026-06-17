@@ -1,11 +1,21 @@
 <?php
 declare(strict_types=1);
 
+if (PHP_SAPI !== 'cli') {
+    http_response_code(403);
+    exit('Forbidden');
+}
+
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/user_schema.php';
 
 try {
     ensure_user_approval_schema($pdo);
+
+    $password = (string)($argv[1] ?? getenv('PDH_BOOTSTRAP_ADMIN_PASSWORD') ?: '');
+    if ($password === '' || strlen($password) < 12) {
+        exit("Usage: php create_admin.php <strong-password>\n");
+    }
 
     $check = $pdo->prepare('SELECT id FROM users WHERE username = :username LIMIT 1');
     $check->execute([':username' => 'admin']);
@@ -39,7 +49,7 @@ try {
     ");
     $stmt->execute([
         ':username' => 'admin',
-        ':password_hash' => password_hash('pdh10832', PASSWORD_DEFAULT),
+        ':password_hash' => password_hash($password, PASSWORD_DEFAULT),
         ':fullname' => 'ผู้ดูแลระบบ PDH CEO',
     ]);
 

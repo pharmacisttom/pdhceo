@@ -36,6 +36,9 @@ try {
     <a href="/pdhceo/modules/cfo/index.php" class="menu <?php echo checkActiveMenu('modules/cfo/'); ?>">
         <i class="bi bi-briefcase-fill"></i> CFO Dashboard
     </a>
+    <a href="/pdhceo/modules/supply/index.php" class="menu <?php echo checkActiveMenu('modules/supply/'); ?>">
+        <i class="bi bi-capsule-pill"></i> ระบบบริหารยา
+    </a>
 
     <div class="menu-header">Operation Modules</div>
     <a href="/pdhceo/modules/opd/index.php" class="menu <?php echo checkActiveMenu('modules/opd/'); ?>">
@@ -46,6 +49,9 @@ try {
     </a>
     <a href="/pdhceo/modules/er/index.php" class="menu <?php echo checkActiveMenu('modules/er/'); ?>">
         <i class="bi bi-heart-pulse"></i> งานอุบัติเหตุฉุกเฉิน (ER)
+    </a>
+    <a href="/pdhceo/modules/xray/index.php" class="menu <?php echo checkActiveMenu('modules/xray/'); ?>">
+        <i class="bi bi-radioactive"></i> X-ray / CT Scan
     </a>
     <a href="/pdhceo/modules/refer/index.php" class="menu <?php echo checkActiveMenu('modules/refer/'); ?>">
         <i class="bi bi-truck-front-fill"></i> ศูนย์ส่งต่อผู้ป่วย (Refer)

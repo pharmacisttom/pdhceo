@@ -6,6 +6,29 @@ function e(?string $text): string
     return htmlspecialchars($text ?? '', ENT_QUOTES, 'UTF-8');
 }
 
+function pdh_password_hash_for_storage(string $password): string
+{
+    $mode = strtolower((string)(getenv('PDH_PASSWORD_HASH_MODE') ?: 'sha256'));
+
+    if (in_array($mode, ['bcrypt', 'native', 'password_hash'], true)) {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    return hash('sha256', $password);
+}
+
+function pdh_password_verify(string $password, string $storedHash): bool
+{
+    $storedHash = trim($storedHash);
+
+    // Keep compatibility with legacy/shared web apps that store SHA-256 hex hashes.
+    if (preg_match('/^[a-f0-9]{64}$/i', $storedHash)) {
+        return hash_equals(strtolower($storedHash), hash('sha256', $password));
+    }
+
+    return password_verify($password, $storedHash);
+}
+
 function log_action(PDO $pdo, string $action, string $detail = ''): void
 {
     try {

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/includes/session.php';
+
+pdh_start_secure_session();
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -38,7 +38,7 @@ try {
     $stmt->execute([':username' => $username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$user || !password_verify($password, $user['password_hash'])) {
+    if (!$user || !pdh_password_verify($password, (string)$user['password_hash'])) {
         log_action($pdo, 'login_failed', 'username=' . $username);
         echo json_encode([
             'status' => 'error',

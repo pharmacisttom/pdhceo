@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once __DIR__ . '/../includes/session.php';
+
+pdh_start_secure_session();
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -64,7 +64,7 @@ try {
     ");
     $stmt->execute([
         ':username' => $username,
-        ':password_hash' => password_hash($password, PASSWORD_DEFAULT),
+        ':password_hash' => pdh_password_hash_for_storage($password),
         ':fullname' => $fullname,
     ]);
 

@@ -27,13 +27,6 @@ function ensure_user_approval_schema(PDO $pdo): void
     ");
     $stmt->execute([':db' => $dbName]);
     $roleType = (string)($stmt->fetchColumn() ?: '');
-    if ($roleType !== '' && strpos($roleType, 'finance') === false) {
-        $pdo->exec("
-            ALTER TABLE users
-            MODIFY role ENUM('admin','ceo','manager','executive','finance','inventory','staff')
-            CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'staff'
-        ");
-    }
 
     $columns = [];
     $stmt = $pdo->prepare("
@@ -63,6 +56,14 @@ function ensure_user_approval_schema(PDO $pdo): void
             );
         }
         return;
+    }
+
+    if ($roleType !== '' && strpos($roleType, 'finance') === false) {
+        $pdo->exec("
+            ALTER TABLE users
+            MODIFY role ENUM('admin','ceo','manager','executive','finance','inventory','staff')
+            CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'staff'
+        ");
     }
 
     if (!isset($columns['approval_status'])) {
